@@ -12,8 +12,8 @@ const mailRouter = require('./src/routes/mailRouter')
 app.use(cors())
 
 const url = 'mongodb://localhost:27017/luna-mail'
-const onlineUrl = 'mongodb+srv://jlucero:Jbl93422@cluster0.v3aqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(onlineUrl, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
+const onlineUrl = 'mongodb+srv://jlucero:<passwor>@cluster0.v3aqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+mongoose.connect(process.env.DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
     .then(() => {console.log('connected to mongo!')})
     .catch((err) => { console.log('mongo connection failed!') })
 
