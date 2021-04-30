@@ -7,6 +7,10 @@ mailRouter.get('/', async (req, res) => {
     res.status(200).json(mail)
 })
 
+mailRouter.get('/test', async (req, res) => {
+    res.status(200).json({test: "works fine!"})
+})
+
 mailRouter.post('/', async (req, res) => {
     const body = req.body
     const newMail = new Mail({
