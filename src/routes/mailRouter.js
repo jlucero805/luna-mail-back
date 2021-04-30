@@ -1,5 +1,11 @@
 const mailRouter = require('express').Router()
+//Mongo
 const Mail = require('../models/mail')
+
+mailRouter.get('/', async (req, res) => {
+    const mail = await Mail.find({})
+    res.status(200).json(mail)
+})
 
 mailRouter.post('/', async (req, res) => {
     const body = req.body
@@ -14,20 +20,14 @@ mailRouter.post('/', async (req, res) => {
     res.status(201).json({mail: "sent"})
 })
 
-mailRouter.get('/', async (req, res) => {
-    const mail = await Mail.find({})
-    res.status(200).json(mail)
+mailRouter.delete('/', async (req, res) => {
+    await Mail.deleteMany({})
+    res.status(204).json({deleted: "all"})
 })
-
 
 mailRouter.delete('/:id', async (req, res) => {
     await Mail.deleteOne({_id: req.params.id})
     res.status(204).json({deleted: "mail"})
 })
 
-
-mailRouter.delete('/', async (req, res) => {
-    await Mail.deleteMany({})
-    res.status(204).json({deleted: "all"})
-})
 module.exports = mailRouter

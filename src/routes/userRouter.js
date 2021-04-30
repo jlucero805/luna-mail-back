@@ -1,5 +1,6 @@
 const userRouter = require('express').Router()
 const bcrypt = require('bcrypt')
+//Mongo
 const User = require('../models/user')
 const Mail = require('../models/mail')
 
@@ -9,8 +10,13 @@ userRouter.get('/', async (req, res) => {
 })
 
 userRouter.get('/:username', async (req, res) => {
-    const one = await User.findOne({username: req.params.username})
+    const one = await User.findOne({ username: req.params.username })
     res.status(200).json(one)
+})
+
+userRouter.get('/allmail/:username', async (req, res) => {
+    const allUserMail = await Mail.find({ to: req.params.username })
+    return res.status(200).json(allUserMail.reverse())
 })
 
 userRouter.post('/', async (req, res) => {
@@ -32,25 +38,20 @@ userRouter.post('/', async (req, res) => {
 
 userRouter.post('/login', async (req, res) => {
     const body = req.body
-    const user = await User.findOne({ username: body.username})
+    const user = await User.findOne({ username: body.username })
     if (user === null) {
-        return res.json({error: "error"})
+        return res.json({ error: "error" })
     }
     try {
         if (await bcrypt.compare(body.passHash, user.passHash)) {
-            const allUserMail = await Mail.find({to: body.username})
+            const allUserMail = await Mail.find({ to: body.username })
             return res.status(200).json(allUserMail.reverse())
         } else {
-            return res.json({error: "error"})
+            return res.json({ error: "error" })
         }
     } catch {
-        return res.json({error: "error"})
+        return res.json({ error: "error" })
     }
-})
-
-userRouter.get('/allmail/:username', async (req, res) => {
-    const allUserMail = await Mail.find({to: req.params.username})
-    return res.status(200).json(allUserMail.reverse())
 })
 
 userRouter.put('/:username', async (req, res) => {
@@ -58,13 +59,14 @@ userRouter.put('/:username', async (req, res) => {
     const newUser = {
         contacts: body.contacts
     }
-    await User.updateOne({username: req.params.username}, newUser)
-    res.status(201).json({user: "updated"})
+    await User.updateOne({ username: req.params.username }, newUser)
+    res.status(201).json({ user: "updated" })
 })
 
+//delete all, Dont use!
 userRouter.delete('/', async (req, res) => {
     await User.deleteMany({})
-    res.status(204).json({all: "deleted"})
+    res.status(204).json({ all: "deleted" })
 })
 
 module.exports = userRouter
