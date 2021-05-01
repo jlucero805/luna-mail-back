@@ -10,8 +10,12 @@ userRouter.get('/', async (req, res) => {
 })
 
 userRouter.get('/:username', async (req, res) => {
-    const one = await User.findOne({ username: req.params.username })
-    res.status(200).json(one)
+    try {
+        const one = await User.findOne({ username: req.params.username })
+        res.status(200).json(one)
+    } catch (e) {
+        res.status(500).end()
+    }
 })
 
 userRouter.get('/allmail/:username', async (req, res) => {

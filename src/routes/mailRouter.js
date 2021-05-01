@@ -18,6 +18,7 @@ mailRouter.post('/', async (req, res) => {
         to: body.to,
         title: body.title,
         content: body.content,
+        hashKey: body.hashKey,
         dateSent: new Date()
     })
     await newMail.save()

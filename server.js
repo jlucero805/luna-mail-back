@@ -11,9 +11,12 @@ const mailRouter = require('./src/routes/mailRouter')
 
 
 const url = 'mongodb://localhost:27017/luna-mail'
-const onlineUrl = 'mongodb+srv://jlucero:<password>@cluster0.v3aqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(process.env.DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
-    .then(() => {console.log('connected to mongo!')})
+const onlineUrl = 'mongodb+srv://jlucero:Jbl93422@cluster0.v3aqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+// mongoose.connect(process.env.DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
+//     .then(() => {console.log('connected to mongo!')})
+//     .catch((err) => { console.log('mongo connection failed!') })
+mongoose.connect(onlineUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true })
+    .then(() => { console.log('connected to mongo!') })
     .catch((err) => { console.log('mongo connection failed!') })
 
 app.use((req, res, next) => { console.log(req.method, req.originalUrl); next(); })
@@ -25,10 +28,9 @@ app.use('/api/users', userRouter)
 app.use('/api/mail', mailRouter)
 
 
-const PORT = process.env.PORT || 8080
-app.listen(PORT, () => {
-    console.log(`running on port ${PORT}`)
-})
+// const PORT = process.env.PORT || 8080
+const PORT = 8080
+app.listen(PORT, () => { console.log(`running on port ${PORT}`) })
 
 
 module.exports = app
