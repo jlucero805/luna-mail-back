@@ -48,7 +48,8 @@ mailRouter.delete('/:id', async (req, res) => {
 
 const authenticateToken = (req) => {
     const authHeader = request.get('authorization')
-    const token = authHeader && authHeader.split(' ')[1]
+    if (!authHeader) return null
+    const token = authHeader.split(' ')[1]
     return token
 }
 
