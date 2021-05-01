@@ -1,11 +1,9 @@
 const express = require('express');
 const app = express()
 const cors = require('cors')
-//MongoDB
-const User = require('./src/models/user')
-const Mail = require('./src/models/mail');
 const mongoose = require('mongoose');
 //routers
+const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/userRouter')
 const mailRouter = require('./src/routes/mailRouter')
 
@@ -23,6 +21,7 @@ app.use(express.json())
 //routes
 app.use('/api/users', userRouter)
 app.use('/api/mail', mailRouter)
+app.use('api/auth', authRouter)
 
 
 const PORT = process.env.PORT || 8080

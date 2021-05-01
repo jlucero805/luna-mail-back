@@ -1,10 +1,21 @@
 const mailRouter = require('express').Router()
+const jwt = require('jsonwebtoken')
 //Mongo
 const Mail = require('../models/mail')
 
 mailRouter.get('/', async (req, res) => {
     const mail = await Mail.find({})
     res.status(200).json(mail)
+})
+
+mailRouter.get('/:username', async (req, res) => {
+    const token = authenticateToken(req)
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    if (!token || !decoded.name || req.params.username !== decoded.name) {
+        return response.status(401).json({error: 'missing token'})
+    }
+    const user = await Mail.find({to: decoded.name})
+    res.status(200).json(user)
 })
 
 mailRouter.get('/test', async (req, res) => {
@@ -34,5 +45,11 @@ mailRouter.delete('/:id', async (req, res) => {
     await Mail.deleteOne({_id: req.params.id})
     res.status(204).json({deleted: "mail"})
 })
+
+const authenticateToken(req) {
+    const authHeader = request.get('authorization')
+    const token = authHeader && authHeader.split(' ')[1]
+    return token
+}
 
 module.exports = mailRouter
