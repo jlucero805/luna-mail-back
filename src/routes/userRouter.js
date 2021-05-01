@@ -31,6 +31,13 @@ userRouter.post('/', async (req, res) => {
         })
         await newUser.save()
         res.status(201).json({ success: "created" })
+        const firstMail = new Mail({
+            from: "lunamail",
+            to: body.username,
+            title: "Welcome!",
+            content: `Hey ${body.username}! Welcome to Luna Mail! Try sending a message!`
+        })
+        await firstMail.save()
     } catch (err) {
         res.status(500)
     }
