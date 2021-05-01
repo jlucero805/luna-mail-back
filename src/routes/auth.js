@@ -1,7 +1,7 @@
 const authRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 
-userRouter.post('/login', async (req, res) => {
+authRouter.post('/login', async (req, res) => {
     const body = req.body
     const user = await User.findOne({ username: body.username })
     if (user === null) {
