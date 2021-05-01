@@ -21,7 +21,7 @@ app.use(express.json())
 //routes
 app.use('/api/users', userRouter)
 app.use('/api/mail', mailRouter)
-app.use('api/auth', authRouter)
+app.use('/api/auth', authRouter)
 
 
 const PORT = process.env.PORT || 8080

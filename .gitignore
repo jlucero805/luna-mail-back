@@ -3,3 +3,4 @@ mail.rest
 user.rest
 thisismyaccesstokensecret
 thisismyrefreshtokensecret
+auth.rest
