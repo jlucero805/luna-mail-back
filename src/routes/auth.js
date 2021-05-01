@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 authRouter.post('/login', async (req, res) => {
     const body = req.body
     const user = await User.findOne({ username: body.username })
+    console.log(user)
     if (user === null) {
         return res.json({ error: "error1" })
     }
