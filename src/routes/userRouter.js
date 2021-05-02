@@ -23,6 +23,12 @@ userRouter.get('/allmail/:username', async (req, res) => {
     return res.status(200).json(allUserMail.reverse())
 })
 
+
+userRouter.get('/allsent/:username', async (req, res) => {
+    const allUserMail = await Mail.find({ from: req.params.username })
+    return res.status(200).json(allUserMail.reverse())
+})
+
 userRouter.post('/', async (req, res) => {
     const body = req.body
     try {
