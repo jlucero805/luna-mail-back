@@ -38,7 +38,7 @@ mailRouter.post('/', authToken, async (req, res) => {
     try {
         const body = req.body
         const checkUser = User.findOne({username: body.to})
-        if (!checkUser) {
+        if (checkUser === null || checkUser === undefined) {
             return res.status(400).json({err: "none"})
         }
         const newMail = new Mail({
