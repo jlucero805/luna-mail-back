@@ -16,4 +16,34 @@ const authToken = (req, res, next) => {
     })
 }
 
+userRouter.post('/', async (req, res) => {
+    const body = req.body
+    try {
+        //check if it exists
+        const checker = await User.find({username: body.username})
+        if (checker.length >= 1) {
+            return res.status(201).json({err: "fail"})
+        }
+        const hashedPassword = await bcrypt.hash(body.passHash, 10)
+        const newUser = new User({
+            username: body.username,
+            passHash: hashedPassword,
+            contacts: [],
+            dateCreated: new Date()
+        })
+        await newUser.save()
+        const firstMail = new Mail({
+            from: "lunamail",
+            to: body.username,
+            title: "Welcome!",
+            content: `Hey ${body.username}! Welcome to Luna Mail! Try sending a message!`,
+            dateSent: new Date()
+        })
+        await firstMail.save()
+        res.status(201).json({ success: "created" })
+    } catch (err) {
+        res.status(500)
+    }
+})
+
 module.exports = userRouter
