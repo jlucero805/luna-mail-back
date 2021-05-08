@@ -1,5 +1,6 @@
 const userRouter = require('express').Router()
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 //Mongo
 const User = require('../models/user')
 const Mail = require('../models/mail')
