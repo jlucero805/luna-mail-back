@@ -2,6 +2,7 @@ const mailRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 //Mongo
 const Mail = require('../models/mail')
+const User = require('../models/user')
 
 
 const authToken = (req, res, next) => {
@@ -36,6 +37,10 @@ mailRouter.get('/sent', authToken, async (req, res) => {
 mailRouter.post('/', authToken, async (req, res) => {
     try {
         const body = req.body
+        const checkUser = User.findOne({username: body.to})
+        if (!checkUser) {
+            return res.status(400)
+        }
         const newMail = new Mail({
             from: req.username.name,
             to: body.to,
