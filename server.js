@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express()
 const cors = require('cors')
@@ -9,8 +10,8 @@ const mailRouter = require('./src/routes/mailRouter')
 
 
 // const url = 'mongodb://localhost:27017/luna-mail'
-// const onlineUrl = 'mongodb+srv://jlucero:<>@cluster0.v3aqi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(process.env.DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
+const DJANGO_PASS = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' ? process.env.TEST_DB : process.DJANGO_PASS
+mongoose.connect(DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
     .then(() => {console.log('connected to mongo!')})
     .catch((err) => { console.log('mongo connection failed!') })
 
