@@ -8,6 +8,8 @@ const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/userRouter')
 const mailRouter = require('./src/routes/mailRouter')
 
+app.use(cors())
+app.use(express.json())
 
 // const url = 'mongodb://localhost:27017/luna-mail'
 const DJANGO_PASS = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' ? process.env.TEST_DB : process.env.DJANGO_PASS
@@ -17,8 +19,6 @@ mongoose.connect(DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 
 
 app.use((req, res, next) => { console.log(req.method, req.originalUrl); next(); })
 
-app.use(cors())
-app.use(express.json())
 
 //routes
 app.use('/api/users', userRouter)
