@@ -50,4 +50,13 @@ mailRouter.post('/', authToken, async (req, res) => {
     }
 })
 
+mailRouter.delete('/:id', authToken, async (req, res) => {
+    try {
+        await Mail.deleteOne({_id: req.params.id})
+        res.status(201)
+    } catch (e) {
+        res.status(400)
+    }
+})
+
 module.exports = mailRouter
