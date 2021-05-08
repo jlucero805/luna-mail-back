@@ -10,7 +10,7 @@ const mailRouter = require('./src/routes/mailRouter')
 
 
 // const url = 'mongodb://localhost:27017/luna-mail'
-const DJANGO_PASS = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' ? process.env.TEST_DB : process.DJANGO_PASS
+const DJANGO_PASS = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' ? process.env.TEST_DB : process.env.DJANGO_PASS
 mongoose.connect(DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
     .then(() => {console.log('connected to mongo!')})
     .catch((err) => { console.log('mongo connection failed!') })
