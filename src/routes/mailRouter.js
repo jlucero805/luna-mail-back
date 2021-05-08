@@ -35,6 +35,16 @@ mailRouter.get('/sent', authToken, async (req, res) => {
 
 mailRouter.post('/', authToken, async (req, res) => {
     try {
+        const body = req.body
+        const newMail = new Mail({
+            from: req.username.name,
+            to: body.to,
+            title: body.title,
+            content: body.content,
+            dateSent: new Date()
+        })
+        await newMail.save()
+        res.json({created: "success"})
     } catch (e) {
         res.status(400)
     }
