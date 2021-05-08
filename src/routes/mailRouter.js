@@ -18,7 +18,16 @@ const authToken = (req, res, next) => {
 mailRouter.get('/', authToken, async (req, res) => {
     try {
         const allMail = await Mail.find({ to: req.username.name })
-        res.status(200).json(allMail)
+        res.status(200).json(allMail.reverse())
+    } catch (e) {
+        res.status(400)
+    }
+})
+
+mailRouter.get('/sent', authToken, async (req, res) => {
+    try {
+        const allSent = await.Mail.find({from: req.username.name})
+        res.status(200).json(allSent.reverse())
     } catch (e) {
         res.status(400)
     }
