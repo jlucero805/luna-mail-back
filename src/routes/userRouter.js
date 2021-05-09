@@ -16,6 +16,10 @@ const authToken = (req, res, next) => {
     })
 }
 
+userRouter.get('/', authToken, (req, res) => {
+    res.json({name: req.username})
+})
+
 userRouter.post('/', async (req, res) => {
     const body = req.body
     try {
