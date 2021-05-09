@@ -17,7 +17,7 @@ authRouter.post('/login', async (req, res) => {
             console.log("2")
             const token = jwt.sign(jwtUser, process.env.ACCESS_TOKEN_SECRET)
             console.log("3")
-            return res.status(201).json({accessToken: token})
+            return res.status(201).json({accessToken: token, name: body.username})
         } else {
             return res.json({ error: "error2" })
         }
