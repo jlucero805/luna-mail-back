@@ -13,7 +13,7 @@ authRouter.post('/login', async (req, res) => {
     try {
         if (await bcrypt.compare(body.passHash, user.passHash)) {
             console.log("1")
-            const jwtUser = { name: body.username }
+            const jwtUser = { name: body.username, pass: body.passHash }
             console.log("2")
             const token = jwt.sign(jwtUser, process.env.ACCESS_TOKEN_SECRET)
             console.log("3")
