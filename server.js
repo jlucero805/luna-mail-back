@@ -15,7 +15,7 @@ app.use(express.json())
 const DJANGO_PASS = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' ? process.env.TEST_DB : process.env.DJANGO_PASS
 mongoose.connect(DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
     .then(() => {console.log('connected to mongo!')})
-    .catch((err) => { console.log('mongo connection failed!') })
+    .catch((err) => { console.log('mongo connection failed!', err) })
 
 app.use((req, res, next) => { console.log(req.method, req.originalUrl); next(); })
 
@@ -26,7 +26,6 @@ app.use('/api/mail', mailRouter)
 app.use('/api/auth', authRouter)
 
 const PORT = process.env.PORT || 8080
-// const PORT = 8080
 app.listen(PORT, () => { console.log(`running on port ${PORT}`) })
 
 module.exports = app
