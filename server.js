@@ -1,4 +1,3 @@
-// require('dotenv').config()
 const express = require('express');
 const app = express()
 const cors = require('cors')
@@ -7,13 +6,16 @@ const mongoose = require('mongoose');
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/userRouter')
 const mailRouter = require('./src/routes/mailRouter')
+if (process.env.NODE_ENV == 'test') {
+    require('dotenv').config()
+}
 
 app.use(cors())
 app.use(express.json())
 
 // const url = 'mongodb://localhost:27017/luna-mail'
 const DJANGO_PASS = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' ? process.env.TEST_DB : process.env.DJANGO_PASS
-mongoose.connect(process.env.DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
+mongoose.connect(DJANGO_PASS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true})
     .then(() => {console.log('connected to mongo!')})
     .catch((err) => { console.log('mongo connection failed!', err) })
 

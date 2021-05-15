@@ -2,6 +2,7 @@ const authRouter = require('express').Router()
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+require('dotenv').config()
 
 authRouter.post('/login', async (req, res) => {
     const body = req.body
