@@ -20,6 +20,7 @@ userRouter.get('/', authToken, (req, res) => {
     res.json({name: req.username})
 })
 
+// create new user
 userRouter.post('/', async (req, res) => {
     const body = req.body
     try {
@@ -47,6 +48,17 @@ userRouter.post('/', async (req, res) => {
         res.status(201).json({ success: "created" })
     } catch (err) {
         res.status(500)
+    }
+})
+
+userRouter.put('/', authToken, async (req, res) => {
+    const body = req.body;
+    try {
+        await User.updateOne({username: req.username.name}, { contacts: body.contacts});
+        const oneUser = User.find(username: req.username.name);
+        res.status(200).json(oneUser);
+    } catch (e) {
+        res.status(400);
     }
 })
 
