@@ -65,7 +65,7 @@ userRouter.put('/', authToken, async (req, res) => {
 userRouter.get('/contacts', authToken, async (req, res) => {
     try {
         const contacts = await User.find({username: req.username.name})
-        res.status(200).json(contacts.contacts);
+        res.status(200).json({contacts: contacts.contacts});
     }  catch (e) {
         res.status(400);
     }
