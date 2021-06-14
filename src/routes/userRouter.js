@@ -75,6 +75,7 @@ userRouter.put('/contacts', authToken, async (req, res) => {
     const body = req.body;
     try {
         const results = await User.updateOne({username: req.username.name}, {contacts: body.contacts});
+        console.log(body.contacts)
         res.status(200).json(results);
     }  catch (e) {
         res.status(400);
