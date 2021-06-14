@@ -71,4 +71,14 @@ userRouter.get('/contacts', authToken, async (req, res) => {
     }
 })
 
+userRouter.put('/contacts', authToken, async (req, res) => {
+    const body = req.body;
+    try {
+        await User.updateOne({username: req.username.name}, {contacts: body.contacts});
+        res.status(200);
+    }  catch (e) {
+        res.status(400);
+    }
+})
+
 module.exports = userRouter
