@@ -16,6 +16,15 @@ const authToken = (req, res, next) => {
     })
 }
 
+userRouter.get('/detail', authToken, async (req, res) => {
+    try {
+        const user = await User.find({username: req.username.name});
+        res.status(200).json(user);
+    } catch (e) {
+        res.status(400)
+    }
+})
+
 userRouter.get('/', authToken, (req, res) => {
     res.json({name: req.username})
 })
