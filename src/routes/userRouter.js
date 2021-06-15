@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const Mail = require('../models/mail')
 
+// authentication that takes in token and sets username
 const authToken = (req, res, next) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
@@ -16,6 +17,7 @@ const authToken = (req, res, next) => {
     })
 }
 
+// gets all attributes of a single user
 userRouter.get('/detail', authToken, async (req, res) => {
     try {
         const user = await User.find({username: req.username.name});
@@ -25,6 +27,7 @@ userRouter.get('/detail', authToken, async (req, res) => {
     }
 })
 
+// get username
 userRouter.get('/', authToken, (req, res) => {
     res.json({name: req.username})
 })
@@ -71,6 +74,7 @@ userRouter.put('/', authToken, async (req, res) => {
     }
 })
 
+// gives list of contacts
 userRouter.get('/contacts', authToken, async (req, res) => {
     try {
         const contacts = await User.find({username: req.username.name})
@@ -80,6 +84,7 @@ userRouter.get('/contacts', authToken, async (req, res) => {
     }
 })
 
+// update list of contacts with given list
 userRouter.put('/contacts', authToken, async (req, res) => {
     const body = req.body;
     try {
@@ -88,6 +93,24 @@ userRouter.put('/contacts', authToken, async (req, res) => {
         res.status(200).json(results);
     }  catch (e) {
         res.status(400);
+    }
+})
+
+// check if given user exists, if so, add user to contacts list
+userRouter.post('/contacts', authToken, async (req, res) => {
+    const body = req.body;
+    try {
+        const user = await User.findOne({username: req.username.name})
+        const otherUser = await User.findOne({username: body.username})
+        if (otherUser === null || otherUser === undefined) {
+            return res.status(200).json({response: "fail"});
+        }
+        user.contacts.push(body.newContact);
+        const results = await User.findOneAndUpdate({username: req.username.name}, { $set: {contacts: user.contacts}});
+        console.log(body.contacts);
+        res.status(200).json({results: "success"});
+    } catch (e) {
+        res.status(200).json({results: "fail"})
     }
 })
 
