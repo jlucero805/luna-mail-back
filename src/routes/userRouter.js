@@ -101,7 +101,7 @@ userRouter.post('/contacts', authToken, async (req, res) => {
     const body = req.body;
     try {
         const user = await User.findOne({username: req.username.name})
-        const otherUser = await User.findOne({username: body.username})
+        const otherUser = await User.findOne({newContact: body.username})
         if (otherUser === null || otherUser === undefined) {
             return res.status(200).json({response: "fail"});
         }
